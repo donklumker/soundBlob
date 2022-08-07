@@ -1,3 +1,6 @@
+// blob responds to sound thanks to Daniel Shiffman, continuing to work through possible permutations
+
+
 let mic;
 let yoff = 0;
 let noiseMax = 0;
