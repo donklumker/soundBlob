@@ -6,8 +6,6 @@ let blobs = [];
 
 
 
-
-
 function setup() {
 
   createCanvas(300, 300);
@@ -17,47 +15,20 @@ function setup() {
 
   let numberOf = 60;
  
-
   for (let i = 0; i < numberOf; i++) {
     
     let rings = i * 4;
     blobs[i] = new Slob(width / 2, height / 2, rings, 0.0005, 20);
 
-    
-
-   
-    
   }
-
-  //noLoop();
-  
-  
 }
-
-
-
-
-
 
   function draw() {
     background(150);
 
     for (let i = 0; i < blobs.length; i++) {
-
-
       blobs[i].drawBlob();
-
-      
-
-
-
     }
-
-
-
-
-
-
   }
 
   class Slob {
@@ -77,11 +48,6 @@ function setup() {
       this.noiseMax;
       this.phase = .1;
 
-
-
-
-
-
     }
 
     drawBlob() {
@@ -98,9 +64,6 @@ function setup() {
       //fill(this.fl);
       
       push();
-  
-      
-
       translate(this.xPos, this.yPos);
       beginShape();
       this.noiseMax = this.smoothMap * 400;
