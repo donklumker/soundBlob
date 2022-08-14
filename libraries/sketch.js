@@ -8,12 +8,12 @@ let slobs = []; // variable for Slob class;
 
 function setup() {
 
-  createCanvas(600, 600);
+  createCanvas(windowWidth, windowHeight);
   mic = new p5.AudioIn();
   mic.start();
   vol = mic.getLevel();
 
-  let numberOf = 100;
+  let numberOf = 40;
 
   for (let i = 0; i < numberOf; i++) {
 
