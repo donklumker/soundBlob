@@ -21,11 +21,11 @@ function setup() {
 
   for (let i = 0; i < numberOf; i++) {
 
-    let rings = i * 25;
+    let rings = i * 30;
 
 
     
-    slobs[i] = new Slob(width / 2, height / 2, rings, 0.001, i*55, random(100,220), random (150, 250));
+    slobs[i] = new Slob(width / 2, height / 2, rings, -0.0006, i*55, random(100,220), random (150, 250));
     print (clrC);
     
 
@@ -35,7 +35,7 @@ function setup() {
 }
 
 function draw() {
-  background(230);
+  background(15);
 
   
  
@@ -77,8 +77,8 @@ class Slob {
 
     this.vol = mic.getLevel();
     this.smoothVol = lerp(this.start, this.vol, this.lerp);
-    this.smoothMap = map(this.smoothVol, 0, 1, 0, 1000);
-    this.radius = this.smoothMap * 4000;
+    this.smoothMap = map(this.smoothVol, 0, 1, 0, 300);
+    this.radius = this.smoothMap * 400;
     //fill(this.fl);
     pg = createGraphics(windowWidth, windowHeight);
     
@@ -94,10 +94,10 @@ class Slob {
     
     //this.noiseMax = this.smoothMap * 20;
 
-    for (let a = 0; a < TWO_PI; a += TWO_PI / 100) {
+    for (let a = 0; a < TWO_PI; a += TWO_PI / 40) {
       this.xoff = map(cos(a + this.phase), -1, 1, 0, this.noiseMax);
       this.yoff = map(sin(a + this.phase), -1, 1, 0, this.noiseMax);
-      this.r = map(noise(this.xoff, this.yoff), 0, 1, 400, this.radius + this.dim);
+      this.r = map(noise(this.xoff, this.yoff), 0, 1, 300, this.radius + this.dim);
       this.x = this.r * cos(a);
       this.y = this.r * sin(a);
       pg.vertex(this.x, this.y);
@@ -112,12 +112,12 @@ class Slob {
     pg.fill(0);
     pg.blendMode(REMOVE);
    
-    this.noiseMax = this.smoothMap * 700;
+    this.noiseMax = this.smoothMap * 500;
 
-    for (let a = 0; a < TWO_PI; a += TWO_PI / 100) {
+    for (let a = 0; a < TWO_PI; a += TWO_PI / 80) {
       this.xoff = map(cos(a + this.phase), -1, 1, 0, this.noiseMax);
       this.yoff = map(sin(a), -1, 1, 0, this.noiseMax);
-      this.r = map(noise(this.xoff, this.yoff), 0, 1, 4, this.radius + this.dim);
+      this.r = map(noise(this.xoff, this.yoff), 0, 1, 50, this.radius + this.dim);
       this.x = this.r * cos(a);
       this.y = this.r * sin(a);
       pg.vertex(this.x, this.y);
@@ -129,7 +129,7 @@ class Slob {
 
 
 
-    this.phase += this.noiseMax  * 0.03;
+    this.phase += this.noiseMax  * 0.02;
 
     image(pg, 0, 0);
 
