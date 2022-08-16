@@ -5,26 +5,40 @@ to work through possible permutations */
 let mic;
 let vol;
 let slobs = []; // variable for Slob class;
+let pg;
+let clrC;
 
 function setup() {
+
+
 
   createCanvas(windowWidth, windowHeight);
   mic = new p5.AudioIn();
   mic.start();
   vol = mic.getLevel();
 
-  let numberOf = 40;
+  let numberOf = 9;
 
   for (let i = 0; i < numberOf; i++) {
 
-    let rings = i * 10;
-    slobs[i] = new Slob(width / 2, height / 2, rings, 0.0005, 20);
+    let rings = i * 68;
+
+
+    
+    slobs[i] = new Slob(width / 2, height / 2, rings, 0.001, i*55, random(100,220), random (150, 250));
+    print (clrC);
+    
 
   }
+
+ //rameRate(15);
 }
 
 function draw() {
-  background(120);
+  background(230);
+
+  
+ 
 
   for (let i = 0; i < slobs.length; i++) {
     slobs[i].drawSlob();
@@ -32,9 +46,12 @@ function draw() {
 }
 
 class Slob {
-  constructor(xPos, yPos, dim, lerp, fl) {
+  constructor(xPos, yPos, dim, lerp, clrA, clrB, clrC) {
 
-    this.fl = fl;
+    
+    this.clrA = clrA;
+    this.clrB = clrB;
+    this.clrC = clrC;
     this.dim = dim;
     this.lerp = lerp;
     this.xPos = xPos;
@@ -46,40 +63,79 @@ class Slob {
     this.xoff = 0;
     this.yoff = 0;
     this.noiseMax;
-    this.phase = .1;
+    this.phase = 40;
 
   }
 
   drawSlob() {
 
 
-    noFill();
-    stroke(255);
-    strokeWeight(.5);
+    
+    
+   
+   // strokeWeight(.5);
 
     this.vol = mic.getLevel();
     this.smoothVol = lerp(this.start, this.vol, this.lerp);
-    this.smoothMap = map(this.smoothVol, 0, 1, 0, 400);
-    this.radius = this.smoothMap * 10;
+    this.smoothMap = map(this.smoothVol, 0, 1, 0, 1000);
+    this.radius = this.smoothMap * 1000;
     //fill(this.fl);
-
+    pg = createGraphics(windowWidth, windowHeight);
+    
+    
     push();
-    translate(this.xPos, this.yPos);
-    beginShape();
-    this.noiseMax = this.smoothMap * 400;
+    pg.translate(this.xPos, this.yPos);
 
-    for (let a = 0; a < TWO_PI; a += TWO_PI / 600) {
+   
+   pg.beginShape();
+   pg.fill(this.clrA, this.clrB, this.clrC);
+   
+
+    
+    //this.noiseMax = this.smoothMap * 20;
+
+    for (let a = 0; a < TWO_PI; a += TWO_PI / 90) {
       this.xoff = map(cos(a + this.phase), -1, 1, 0, this.noiseMax);
-      this.yoff = map(sin(a), -1, 1, 0, this.noiseMax);
-      this.r = map(noise(this.xoff, this.yoff), 0, 1, 50, this.radius + this.dim);
+      this.yoff = map(sin(a + this.phase), -1, 1, 0, this.noiseMax);
+      this.r = map(noise(this.xoff, this.yoff), 0, 1, 200, this.radius + this.dim);
       this.x = this.r * cos(a);
       this.y = this.r * sin(a);
-      vertex(this.x, this.y);
-
+      pg.vertex(this.x, this.y);
     }
-    endShape(CLOSE);
-    this.phase += this.noiseMax * 0.1;
-    pop();
+
+    pg.endShape(CLOSE);
+
+
+
+    pg.beginShape();
+  
+    pg.fill(0);
+    pg.blendMode(REMOVE);
+   
+    this.noiseMax = this.smoothMap * 200;
+
+    for (let a = 0; a < TWO_PI; a += TWO_PI / 90) {
+      this.xoff = map(cos(a + this.phase), -1, 1, 0, this.noiseMax);
+      this.yoff = map(sin(a), -1, 1, 0, this.noiseMax);
+      this.r = map(noise(this.xoff, this.yoff), 0, 1, 4, this.radius + this.dim);
+      this.x = this.r * cos(a);
+      this.y = this.r * sin(a);
+      pg.vertex(this.x, this.y);
+      
+    }
+
+    pg.endShape(CLOSE);
+
+
+
+
+    this.phase += this.noiseMax  * 0.01;
+
+    image(pg, 0, 0);
+
+    //pg.fill(this.clr);
+
+    
   }
 
   writeText() {
@@ -89,4 +145,5 @@ class Slob {
     text("smoothMap =", 40, 100);
 
   }
+  
 }
