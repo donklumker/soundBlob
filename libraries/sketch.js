@@ -17,7 +17,7 @@ function setup() {
   mic.start();
   vol = mic.getLevel();
 
-  let numberOf = 10;
+  let numberOf = 8;
 
   for (let i = 0; i < numberOf; i++) {
 
@@ -25,7 +25,7 @@ function setup() {
 
 
     
-    slobs[i] = new Slob(width / 2, height / 2, rings, -0.0006, i*55, random(100,220), random (150, 250));
+    slobs[i] = new Slob(width / 2, height / 2, rings, -0.0003, i*55, random(100,220), random (150, 250));
     print (clrC);
     
 
@@ -63,7 +63,7 @@ class Slob {
     this.xoff = 0;
     this.yoff = 0;
     this.noiseMax;
-    this.phase = 40;
+    this.phase = .1;
 
   }
 
@@ -77,8 +77,8 @@ class Slob {
 
     this.vol = mic.getLevel();
     this.smoothVol = lerp(this.start, this.vol, this.lerp);
-    this.smoothMap = map(this.smoothVol, 0, 1, 0, 300);
-    this.radius = this.smoothMap * 400;
+    this.smoothMap = map(this.smoothVol, 0, 1, 0, 900);
+    this.radius = this.smoothMap * 20;
     //fill(this.fl);
     pg = createGraphics(windowWidth, windowHeight);
     
@@ -94,10 +94,10 @@ class Slob {
     
     //this.noiseMax = this.smoothMap * 20;
 
-    for (let a = 0; a < TWO_PI; a += TWO_PI / 40) {
+    for (let a = 0; a < TWO_PI; a += TWO_PI / 200) {
       this.xoff = map(cos(a + this.phase), -1, 1, 0, this.noiseMax);
       this.yoff = map(sin(a + this.phase), -1, 1, 0, this.noiseMax);
-      this.r = map(noise(this.xoff, this.yoff), 0, 1, 300, this.radius + this.dim);
+      this.r = map(noise(this.xoff, this.yoff), 0, 1, 500, this.radius + this.dim);
       this.x = this.r * cos(a);
       this.y = this.r * sin(a);
       pg.vertex(this.x, this.y);
@@ -112,12 +112,12 @@ class Slob {
     pg.fill(0);
     pg.blendMode(REMOVE);
    
-    this.noiseMax = this.smoothMap * 500;
+    this.noiseMax = this.smoothMap * 700;
 
-    for (let a = 0; a < TWO_PI; a += TWO_PI / 80) {
+    for (let a = 0; a < TWO_PI; a += TWO_PI / 60) {
       this.xoff = map(cos(a + this.phase), -1, 1, 0, this.noiseMax);
       this.yoff = map(sin(a), -1, 1, 0, this.noiseMax);
-      this.r = map(noise(this.xoff, this.yoff), 0, 1, 50, this.radius + this.dim);
+      this.r = map(noise(this.xoff, this.yoff), 0, 1, 55+  this.noiseMax, this.radius + this.dim);
       this.x = this.r * cos(a);
       this.y = this.r * sin(a);
       pg.vertex(this.x, this.y);
