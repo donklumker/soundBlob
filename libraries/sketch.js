@@ -17,11 +17,11 @@ function setup() {
   mic.start();
   vol = mic.getLevel();
 
-  let numberOf = 9;
+  let numberOf = 10;
 
   for (let i = 0; i < numberOf; i++) {
 
-    let rings = i * 68;
+    let rings = i * 25;
 
 
     
@@ -78,7 +78,7 @@ class Slob {
     this.vol = mic.getLevel();
     this.smoothVol = lerp(this.start, this.vol, this.lerp);
     this.smoothMap = map(this.smoothVol, 0, 1, 0, 1000);
-    this.radius = this.smoothMap * 1000;
+    this.radius = this.smoothMap * 4000;
     //fill(this.fl);
     pg = createGraphics(windowWidth, windowHeight);
     
@@ -94,10 +94,10 @@ class Slob {
     
     //this.noiseMax = this.smoothMap * 20;
 
-    for (let a = 0; a < TWO_PI; a += TWO_PI / 90) {
+    for (let a = 0; a < TWO_PI; a += TWO_PI / 100) {
       this.xoff = map(cos(a + this.phase), -1, 1, 0, this.noiseMax);
       this.yoff = map(sin(a + this.phase), -1, 1, 0, this.noiseMax);
-      this.r = map(noise(this.xoff, this.yoff), 0, 1, 200, this.radius + this.dim);
+      this.r = map(noise(this.xoff, this.yoff), 0, 1, 400, this.radius + this.dim);
       this.x = this.r * cos(a);
       this.y = this.r * sin(a);
       pg.vertex(this.x, this.y);
@@ -112,9 +112,9 @@ class Slob {
     pg.fill(0);
     pg.blendMode(REMOVE);
    
-    this.noiseMax = this.smoothMap * 200;
+    this.noiseMax = this.smoothMap * 700;
 
-    for (let a = 0; a < TWO_PI; a += TWO_PI / 90) {
+    for (let a = 0; a < TWO_PI; a += TWO_PI / 100) {
       this.xoff = map(cos(a + this.phase), -1, 1, 0, this.noiseMax);
       this.yoff = map(sin(a), -1, 1, 0, this.noiseMax);
       this.r = map(noise(this.xoff, this.yoff), 0, 1, 4, this.radius + this.dim);
@@ -129,7 +129,7 @@ class Slob {
 
 
 
-    this.phase += this.noiseMax  * 0.01;
+    this.phase += this.noiseMax  * 0.03;
 
     image(pg, 0, 0);
 
