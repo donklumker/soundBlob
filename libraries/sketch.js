@@ -77,7 +77,7 @@ class Slob {
 
     this.vol = mic.getLevel();
     this.smoothVol = lerp(this.start, this.vol, this.lerp);
-    this.smoothMap = map(this.smoothVol, 0, 1, 0, 900);
+    this.smoothMap = map(this.smoothVol, 0, 1, 0, 300);
     this.radius = this.smoothMap * 20;
     //fill(this.fl);
     pg = createGraphics(windowWidth, windowHeight);
@@ -97,7 +97,7 @@ class Slob {
     for (let a = 0; a < TWO_PI; a += TWO_PI / 200) {
       this.xoff = map(cos(a + this.phase), -1, 1, 0, this.noiseMax);
       this.yoff = map(sin(a + this.phase), -1, 1, 0, this.noiseMax);
-      this.r = map(noise(this.xoff, this.yoff), 0, 1, 500, this.radius + this.dim);
+      this.r = map(noise(this.xoff, this.yoff), 0, 1, 400, this.radius + this.dim);
       this.x = this.r * cos(a);
       this.y = this.r * sin(a);
       pg.vertex(this.x, this.y);
